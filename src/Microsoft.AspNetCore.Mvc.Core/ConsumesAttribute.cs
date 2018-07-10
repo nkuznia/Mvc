@@ -304,7 +304,7 @@ namespace Microsoft.AspNetCore.Mvc
                     mediaType.MatchesAllTypes)
                 {
                     throw new InvalidOperationException(
-                        Resources.FormatMatchAllContentTypeIsNotAllowed(arg));
+                        Core.Resources.FormatMatchAllContentTypeIsNotAllowed(arg));
                 }
 
                 contentTypes.Add(arg);

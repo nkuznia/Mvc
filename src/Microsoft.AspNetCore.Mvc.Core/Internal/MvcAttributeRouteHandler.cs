@@ -5,7 +5,6 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
@@ -68,7 +67,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
 
             if (Actions == null)
             {
-                var message = Resources.FormatPropertyOfTypeCannotBeNull(
+                var message = Core.Resources.FormatPropertyOfTypeCannotBeNull(
                     nameof(Actions), 
                     nameof(MvcAttributeRouteHandler));
                 throw new InvalidOperationException(message);
@@ -103,7 +102,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                 if (invoker == null)
                 {
                     throw new InvalidOperationException(
-                        Resources.FormatActionInvokerFactory_CouldNotCreateInvoker(
+                        Core.Resources.FormatActionInvokerFactory_CouldNotCreateInvoker(
                             actionDescriptor.DisplayName));
                 }
 

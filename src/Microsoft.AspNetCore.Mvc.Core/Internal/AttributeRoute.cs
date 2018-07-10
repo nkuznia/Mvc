@@ -178,12 +178,12 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                 var allErrors = string.Join(
                     Environment.NewLine + Environment.NewLine,
                     errors.Select(
-                        e => Resources.FormatAttributeRoute_IndividualErrorMessage(
+                        e => Core.Resources.FormatAttributeRoute_IndividualErrorMessage(
                             e.ActionDescriptor.DisplayName,
                             Environment.NewLine,
                             e.ErrorMessage)));
 
-                var message = Resources.FormatAttributeRoute_AggregateErrorMessage(Environment.NewLine, allErrors);
+                var message = Core.Resources.FormatAttributeRoute_AggregateErrorMessage(Environment.NewLine, allErrors);
                 throw new RouteCreationException(message);
             }
 
@@ -224,7 +224,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                 {
                     if (string.Equals(kvp.Key, parameter.Name, StringComparison.OrdinalIgnoreCase))
                     {
-                        routeInfo.ErrorMessage = Resources.FormatAttributeRoute_CannotContainParameter(
+                        routeInfo.ErrorMessage = Core.Resources.FormatAttributeRoute_CannotContainParameter(
                             routeInfo.RouteTemplate.TemplateText,
                             kvp.Key,
                             kvp.Value);

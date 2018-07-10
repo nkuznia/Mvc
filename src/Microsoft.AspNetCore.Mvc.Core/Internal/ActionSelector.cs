@@ -133,7 +133,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
 
                 _logger.AmbiguousActions(actionNames);
 
-                var message = Resources.FormatDefaultActionSelector_AmbiguousActions(
+                var message = Core.Resources.FormatDefaultActionSelector_AmbiguousActions(
                     Environment.NewLine,
                     actionNames);
 

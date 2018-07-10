@@ -239,7 +239,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             if (isVisibleSetOnActionOrController && !IsAttributeRoutedAction(actionDescriptor))
             {
                 // ApiExplorer is only supported on attribute routed actions.
-                throw new InvalidOperationException(Resources.FormatApiExplorer_UnsupportedAction(
+                throw new InvalidOperationException(Core.Resources.FormatApiExplorer_UnsupportedAction(
                     actionDescriptor.DisplayName));
             }
             else if (isVisibleSetOnApplication && !IsAttributeRoutedAction(actionDescriptor))
@@ -396,7 +396,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             {
                 // Routing will throw an InvalidOperationException here if we can't parse/replace tokens
                 // in the template.
-                var message = Resources.FormatAttributeRoute_IndividualErrorMessage(
+                var message = Core.Resources.FormatAttributeRoute_IndividualErrorMessage(
                     actionDescriptor.DisplayName,
                     Environment.NewLine,
                     ex.Message);
@@ -432,7 +432,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
         {
             return namedRoutedErrors
                 .Select((error, i) =>
-                    Resources.FormatAttributeRoute_AggregateErrorMessage_ErrorNumber(
+                    Core.Resources.FormatAttributeRoute_AggregateErrorMessage_ErrorNumber(
                         i + 1,
                         Environment.NewLine,
                         error))
@@ -465,12 +465,12 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                     if (!firstTemplate.Equals(otherActionTemplate, StringComparison.OrdinalIgnoreCase))
                     {
                         var descriptions = kvp.Value.Select(ad =>
-                            Resources.FormatAttributeRoute_DuplicateNames_Item(
+                            Core.Resources.FormatAttributeRoute_DuplicateNames_Item(
                                 ad.DisplayName,
                                 ad.AttributeRouteInfo.Template));
 
                         var errorDescription = string.Join(Environment.NewLine, descriptions);
-                        var message = Resources.FormatAttributeRoute_DuplicateNames(
+                        var message = Core.Resources.FormatAttributeRoute_DuplicateNames(
                             kvp.Key,
                             Environment.NewLine,
                             errorDescription);
@@ -531,7 +531,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             IDictionary<ActionModel, IList<ControllerActionDescriptor>> actionsForMethod)
         {
             // Text to show as the attribute route template for conventionally routed actions.
-            var nullTemplate = Resources.AttributeRoute_NullTemplateRepresentation;
+            var nullTemplate = Core.Resources.AttributeRoute_NullTemplateRepresentation;
 
             var actionDescriptions = new List<string>();
             foreach (var action in actionsForMethod.SelectMany(kvp => kvp.Value))
@@ -548,7 +548,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                 }
 
                 var description =
-                    Resources.FormatAttributeRoute_MixedAttributeAndConventionallyRoutedActions_ForMethod_Item(
+                    Core.Resources.FormatAttributeRoute_MixedAttributeAndConventionallyRoutedActions_ForMethod_Item(
                         action.DisplayName,
                         routeTemplate,
                         formattedVerbs);
@@ -566,7 +566,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             // Use 'AcceptVerbsAttribute' to create a single route that allows multiple HTTP verbs and defines a route,
             // or set a route template in all attributes that constrain HTTP verbs.
             return
-                Resources.FormatAttributeRoute_MixedAttributeAndConventionallyRoutedActions_ForMethod(
+                Core.Resources.FormatAttributeRoute_MixedAttributeAndConventionallyRoutedActions_ForMethod(
                     actionDescriptor.DisplayName,
                     Environment.NewLine,
                     string.Join(Environment.NewLine, actionDescriptions));
@@ -577,7 +577,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
         {
             var errorMessages = AddErrorNumbers(individualErrors);
 
-            var message = Resources.FormatAttributeRoute_AggregateErrorMessage(
+            var message = Core.Resources.FormatAttributeRoute_AggregateErrorMessage(
                 Environment.NewLine,
                 string.Join(Environment.NewLine + Environment.NewLine, errorMessages));
             return message;

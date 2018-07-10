@@ -312,7 +312,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             if (_actionExecutingContext.Result != null)
             {
                 // If we get here, it means that an async filter set a result AND called next(). This is forbidden.
-                var message = Resources.FormatAsyncActionFilter_InvalidShortCircuit(
+                var message = Core.Resources.FormatAsyncActionFilter_InvalidShortCircuit(
                     typeof(IAsyncActionFilter).Name,
                     nameof(ActionExecutingContext.Result),
                     typeof(ActionExecutingContext).Name,
