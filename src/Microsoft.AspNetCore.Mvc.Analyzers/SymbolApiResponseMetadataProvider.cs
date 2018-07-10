@@ -15,6 +15,32 @@ namespace Microsoft.AspNetCore.Mvc.Analyzers
 
         internal static IList<ApiResponseMetadata> GetResponseMetadata(
             ApiControllerSymbolCache symbolCache,
+            IMethodSymbol method)
+        {
+            var metadataItems = GetResponseMetadataFromMethodAttributes(symbolCache, method);
+            if (metadataItems.Count != 0)
+            {
+                return metadataItems;
+            }
+
+            var conventionTypeAttributes = GetConventionTypeAttributes(symbolCache, method);
+            metadataItems = GetResponseMetadataFromConventions(symbolCache, method, conventionTypeAttributes);
+            return metadataItems;
+        }
+
+        internal static IReadOnlyList<AttributeData> GetConventionTypeAttributes(ApiControllerSymbolCache symbolCache, IMethodSymbol method)
+        {
+            var attributes = method.ContainingType.GetAttributes(symbolCache.ApiConventionTypeAttribute).ToArray();
+            if (attributes.Length == 0)
+            {
+                attributes = method.ContainingAssembly.GetAttributes(symbolCache.ApiConventionTypeAttribute).ToArray();
+            }
+
+            return attributes;
+        }
+
+        internal static IList<ApiResponseMetadata> GetResponseMetadata(
+            ApiControllerSymbolCache symbolCache,
             IMethodSymbol method,
             IReadOnlyList<AttributeData> conventionTypeAttributes)
         {
@@ -68,7 +94,7 @@ namespace Microsoft.AspNetCore.Mvc.Analyzers
             foreach (var attribute in responseMetadataAttributes)
             {
                 var statusCode = GetStatusCode(attribute);
-                var metadata = new ApiResponseMetadata(statusCode, attribute, convention: null);
+                var metadata = new ApiResponseMetadata(statusCode, attribute, methodSymbol);
 
                 metadataItems.Add(metadata);
             }

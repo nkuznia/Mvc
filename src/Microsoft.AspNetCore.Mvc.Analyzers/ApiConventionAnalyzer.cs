@@ -15,6 +15,8 @@ namespace Microsoft.AspNetCore.Mvc.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class ApiConventionAnalyzer : DiagnosticAnalyzer
     {
+        internal const string StatusCode = nameof(StatusCode);
+
         private static readonly Func<SyntaxNode, bool> _shouldDescendIntoChildren = ShouldDescendIntoChildren;
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
@@ -153,9 +155,15 @@ namespace Microsoft.AspNetCore.Mvc.Analyzers
                 context.ActualResponseMetadata.Add(statusCode.Value);
                 if (!HasStatusCode(context.ExpectedResponseMetadata, statusCode.Value))
                 {
+                    var properties = new Dictionary<string, string>
+                    {
+                        { StatusCode, statusCode.Value.ToString() }
+                    };
+
                     return Diagnostic.Create(
                         DiagnosticDescriptors.MVC1004_ActionReturnsUndocumentedStatusCode,
                         location,
+                        properties.ToImmutableDictionary(),
                         statusCode);
                 }
             }
