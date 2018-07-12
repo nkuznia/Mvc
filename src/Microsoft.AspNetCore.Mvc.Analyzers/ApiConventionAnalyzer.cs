@@ -155,15 +155,9 @@ namespace Microsoft.AspNetCore.Mvc.Analyzers
                 context.ActualResponseMetadata.Add(statusCode.Value);
                 if (!HasStatusCode(context.ExpectedResponseMetadata, statusCode.Value))
                 {
-                    var properties = new Dictionary<string, string>
-                    {
-                        { StatusCode, statusCode.Value.ToString() }
-                    };
-
                     return Diagnostic.Create(
                         DiagnosticDescriptors.MVC1004_ActionReturnsUndocumentedStatusCode,
                         location,
-                        properties.ToImmutableDictionary(),
                         statusCode);
                 }
             }
