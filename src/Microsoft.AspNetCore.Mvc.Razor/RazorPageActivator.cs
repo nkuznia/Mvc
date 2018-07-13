@@ -63,15 +63,23 @@ namespace Microsoft.AspNetCore.Mvc.Razor
             }
 
             var pageType = page.GetType();
-            RazorPagePropertyActivator propertyActivator;
-            if (!_activationInfo.TryGetValue(pageType, out propertyActivator))
+            if (!_activationInfo.TryGetValue(pageType, out var propertyActivator))
             {
                 // Look for a property named "Model". If it is non-null, we'll assume this is
                 // the equivalent of TModel Model property on RazorPage<TModel>.
                 //
                 // Otherwise if we don't have a model property the activator will just skip setting
                 // the view data.
-                var modelType = pageType.GetRuntimeProperty(ModelPropertyName)?.PropertyType;
+                Type modelType;
+                if (page is IModelTypeProvider modelTypeProvider)
+                {
+                    modelType = modelTypeProvider.GetModelType();
+                }
+                else
+                {
+                    modelType = pageType.GetRuntimeProperty(ModelPropertyName)?.PropertyType;
+                }
+
                 propertyActivator = new RazorPagePropertyActivator(
                     pageType,
                     modelType,
