@@ -19,7 +19,7 @@ namespace RazorBuildWebSite
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseEndpoint();
+            app.UseDispatcher();
 
             app.UseMvcWithEndpoint(routes =>
             {
